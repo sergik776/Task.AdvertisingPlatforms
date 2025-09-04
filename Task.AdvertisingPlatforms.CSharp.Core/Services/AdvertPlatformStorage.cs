@@ -1,3 +1,4 @@
+using System.Collections;
 using Task.AdvertisingPlatforms.CSharp.Core.Interfaces;
 using Task.AdvertisingPlatforms.CSharp.Core.Models;
 
@@ -45,7 +46,10 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
 
     public IEnumerable<string>? GetPlatforms(string location)
     {
-        _Locations_Platforms.TryGetValue(location, out var platforms);
-        return platforms;
+        if (_Locations_Platforms.TryGetValue(location, out var platforms))
+        {
+            return platforms;
+        }
+        return Enumerable.Empty<string>();
     }
 }

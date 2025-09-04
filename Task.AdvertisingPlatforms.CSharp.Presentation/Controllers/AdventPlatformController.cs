@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Task.AdvertisingPlatforms.CSharp.Core.Interfaces;
 
@@ -57,7 +58,8 @@ public class AdventPlatformController : ControllerBase
     /// <param name="location">Локация</param>
     /// <returns>Список рекламодателей</returns>
     [HttpGet(Name = "SearchPlatformByLocation")]
-    public IEnumerable<string>? SearchPlatformByLocation(string location)
+    public IEnumerable<string>? SearchPlatformByLocation([RegularExpression(@"^\/.+$", ErrorMessage = "Параметр должен начинаться с '/' и содержать минимум один символ после")]
+        string location)
     {
         return _advertPlatformStorage.GetPlatforms(location);
     }
