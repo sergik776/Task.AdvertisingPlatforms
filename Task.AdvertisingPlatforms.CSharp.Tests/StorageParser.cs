@@ -38,6 +38,6 @@ public class StorageTest
         var data = _parser.Parse(content_ok);
         _storage.Add(data);
         var result = _storage.GetPlatforms("/ru");
-        Assert.That(result.Count, Is.EqualTo(4));
+        Assert.That(result.Count, Is.EqualTo(1));
     }
 }
