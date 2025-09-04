@@ -23,20 +23,17 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
     
     public void Add(IList<AdvertisingPlatform> listPlatforms)
     {
-        for (int i = 0; i < listPlatforms.Count; i++)
+        foreach (var key in listPlatforms.SelectMany(x=>x.Locations))
         {
-            for (int j = 0; j < listPlatforms[i].Locations.Count; j++)
+            var parts = key.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            string prefix = "";
+            foreach (var part in parts)
             {
-                //Работа с локациями
-                var parts = listPlatforms[i].Locations[j].Split('/', StringSplitOptions.RemoveEmptyEntries);
-                string prefix = "";
-                foreach (var part in parts)
-                {
-                    prefix += "/" + part;
-                    _Locations_Platforms.TryAdd(prefix, new HashSet<string>(){  });
-                }
+                prefix += "/" + part;
+                _Locations_Platforms.TryAdd(prefix, new());
             }
         }
+        
         foreach (var locationsPlatform in _Locations_Platforms.Keys)
         {
             var parts = locationsPlatform.Split('/', StringSplitOptions.RemoveEmptyEntries);
