@@ -25,22 +25,17 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
     {
         foreach (var key in listPlatforms.SelectMany(x=>x.Locations))
         {
-            var parts = key.Split('/', StringSplitOptions.RemoveEmptyEntries);
-            string prefix = "";
-            foreach (var part in parts)
+            var prefixes = GetPrefixesTag(key);
+            foreach (var prefix in prefixes)
             {
-                prefix += "/" + part;
                 _Locations_Platforms.TryAdd(prefix, new());
             }
         }
         
         foreach (var locationsPlatform in _Locations_Platforms.Keys)
         {
-            var parts = locationsPlatform.Split('/', StringSplitOptions.RemoveEmptyEntries);
-            string prefix = "";
-            foreach (var part in parts)
+            foreach (var prefix in GetPrefixesTag(locationsPlatform))
             {
-                prefix += "/" + part;
                 var platforms = listPlatforms.Where(x=>x.Locations.Contains(prefix));
                 foreach (var platform in platforms)
                 {
@@ -48,6 +43,19 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
                 }
             }
         }
+    }
+
+    private string[] GetPrefixesTag(string tag)
+    {
+        var parts = tag.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        string[] result = new string[parts.Length];
+        string prefix = "";
+        for (int i = 0; i < parts.Length; i++)
+        {
+            prefix += "/" + parts[i];
+            result[i] = prefix;
+        }
+        return result;
     }
 
 
