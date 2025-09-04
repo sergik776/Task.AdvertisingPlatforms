@@ -35,17 +35,7 @@ public class AdventPlatformParser : IAdventPlatformParser
             if (locations.Count() == 0) throw new AdvertParseException($"Список локаций рекламодателя не может быть пустым");
             
             // Создаем HashSet для всех локаций и их префиксов
-            var extendedLocations = new HashSet<string>();
-            foreach (var loc in locations)
-            {
-                var segments = loc.Split('/', StringSplitOptions.RemoveEmptyEntries);
-                var prefix = "";
-                foreach (var segment in segments)
-                {
-                    prefix += "/" + segment;
-                    extendedLocations.Add(prefix);
-                }
-            }
+            var extendedLocations = new HashSet<string>(locations);
             platforms.Add(new AdvertisingPlatform(name, extendedLocations));
         }
         return platforms;

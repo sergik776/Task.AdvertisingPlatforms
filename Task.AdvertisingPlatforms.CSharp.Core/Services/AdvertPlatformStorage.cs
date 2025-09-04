@@ -21,30 +21,40 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
     }
     
     
-    public void Add(IList<AdvertisingPlatform> advertisingPlatform)
+    public void Add(IList<AdvertisingPlatform> listPlatforms)
     {
-        //Пересоздаем словарь, так как из условий ТЗ идет перезапись, а не добавление рекламодателей
-        _Locations_Platforms = new Dictionary<string, HashSet<string>>();
-        for (int i = 0; i < advertisingPlatform.Count(); i++)
+        for (int i = 0; i < listPlatforms.Count; i++)
         {
-            for (int j = 0; j < advertisingPlatform[i].Locations.Count; j++)
+            for (int j = 0; j < listPlatforms[i].Locations.Count; j++)
             {
-                if (_Locations_Platforms.ContainsKey(advertisingPlatform[i].Locations[j]))
+                //Работа с локациями
+                var parts = listPlatforms[i].Locations[j].Split('/', StringSplitOptions.RemoveEmptyEntries);
+                string prefix = "";
+                foreach (var part in parts)
                 {
-                    if (!_Locations_Platforms[advertisingPlatform[i].Locations[j]].Contains(advertisingPlatform[i].Name))
-                    {
-                        _Locations_Platforms[advertisingPlatform[i].Locations[j]].Add(advertisingPlatform[i].Name);
-                    }
-                }
-                else
-                {
-                    _Locations_Platforms.Add(advertisingPlatform[i].Locations[j], new  HashSet<string>() { advertisingPlatform[i].Name });
+                    prefix += "/" + part;
+                    _Locations_Platforms.TryAdd(prefix, new HashSet<string>(){  });
                 }
             }
-        };
+        }
+        foreach (var locationsPlatform in _Locations_Platforms.Keys)
+        {
+            var parts = locationsPlatform.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            string prefix = "";
+            foreach (var part in parts)
+            {
+                prefix += "/" + part;
+                var platforms = listPlatforms.Where(x=>x.Locations.Contains(prefix));
+                foreach (var platform in platforms)
+                {
+                    _Locations_Platforms[locationsPlatform].Add(platform.Name);
+                }
+            }
+        }
     }
 
-    public IEnumerable<string>? GetPlatforms(string location)
+
+    public IEnumerable<string> GetPlatforms(string location)
     {
         if (_Locations_Platforms.TryGetValue(location, out var platforms))
         {
@@ -52,4 +62,5 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
         }
         return Enumerable.Empty<string>();
     }
+
 }
