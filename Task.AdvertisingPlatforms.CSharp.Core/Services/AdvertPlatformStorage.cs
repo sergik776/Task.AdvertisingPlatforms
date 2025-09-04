@@ -20,18 +20,18 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
         _Locations_Platforms = new Dictionary<string, HashSet<string>>();
     }
     
-    
     public void Add(IList<AdvertisingPlatform> listPlatforms)
     {
+        //Сначала добавим в хранилище все существующие локации и префиксы локаций
         foreach (var key in listPlatforms.SelectMany(x=>x.Locations))
         {
-            var prefixes = GetPrefixesTag(key);
-            foreach (var prefix in prefixes)
+            foreach (var prefix in GetPrefixesTag(key))
             {
                 _Locations_Platforms.TryAdd(prefix, new());
             }
         }
         
+        //Теперь для каждой локации добавим рекламодателя, который может делать в неё публикации
         foreach (var locationsPlatform in _Locations_Platforms.Keys)
         {
             foreach (var prefix in GetPrefixesTag(locationsPlatform))
@@ -45,6 +45,11 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
         }
     }
 
+    /// <summary>
+    /// Метод получения всех префиксов по локации
+    /// </summary>
+    /// <param name="tag">Локация</param>
+    /// <returns>Список префиксов</returns>
     private string[] GetPrefixesTag(string tag)
     {
         var parts = tag.Split('/', StringSplitOptions.RemoveEmptyEntries);
@@ -58,7 +63,7 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
         return result;
     }
 
-
+    
     public IEnumerable<string> GetPlatforms(string location)
     {
         if (_Locations_Platforms.TryGetValue(location, out var platforms))
@@ -67,5 +72,4 @@ public class AdvertPlatformStorage : IAdvertPlatformStorage
         }
         return Enumerable.Empty<string>();
     }
-
 }
