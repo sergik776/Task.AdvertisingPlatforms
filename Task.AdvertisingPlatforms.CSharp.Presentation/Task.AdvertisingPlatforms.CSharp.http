@@ -1,0 +1,6 @@
+@Task.AdvertisingPlatforms.CSharp_HostAddress = http://localhost:5070
+
+GET {{Task.AdvertisingPlatforms.CSharp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
