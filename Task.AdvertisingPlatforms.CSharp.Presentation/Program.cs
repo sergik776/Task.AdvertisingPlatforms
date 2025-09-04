@@ -1,5 +1,6 @@
 using Task.AdvertisingPlatforms.CSharp.Core.Interfaces;
 using Task.AdvertisingPlatforms.CSharp.Core.Services;
+using Task.AdvertisingPlatforms.CSharp.Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseMiddleware<ErrorMiddleware>();
 
 app.UseAuthorization();
 
