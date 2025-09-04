@@ -1,3 +1,4 @@
+using System.Reflection;
 using Task.AdvertisingPlatforms.CSharp.Core.Interfaces;
 using Task.AdvertisingPlatforms.CSharp.Core.Services;
 using Task.AdvertisingPlatforms.CSharp.Presentation.Middlewares;
@@ -14,7 +15,12 @@ builder.Services.AddSingleton<IAdvertPlatformStorage, AdvertPlatformStorage>();
 builder.Services.AddTransient<IAdventPlatformParser, AdventPlatformParser>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 
