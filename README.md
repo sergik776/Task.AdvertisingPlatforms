@@ -20,3 +20,14 @@ Swagger работает по адресу: http://localhost:5070/swagger<br>
 ```bash
 dotnet test
 ```
+
+# Инструкция Benchmark
+1. Склонируйте репозиторий
+2. Перейдите в папку проекта [Task.AdvertisingPlatforms.CSharp.Bench.csproj](Task.AdvertisingPlatforms.CSharp.Bench.csproj)
+3. Запустите проект с помощью команды<br>
+```bash
+dotnet run -c Release --property WarningLevel=0
+```
+Проект сначала проводит тесты [Task.AdvertisingPlatforms.CSharp.Tests](Task.AdvertisingPlatforms.CSharp.Tests), если тесты пройдены успешно, то запускается Benchmark
+Пример результата Benchmark:
+![Скриншот](Task.AdvertisingPlatforms.CSharp/screenshot_2025-09-05_13-08-07.png)

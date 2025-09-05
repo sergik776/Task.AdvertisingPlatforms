@@ -4,3 +4,4 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 /.idea
+/Task.AdvertisingPlatforms.CSharp.Bench/BenchmarkDotNet.Artifacts

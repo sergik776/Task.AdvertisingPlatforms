@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Task.AdvertisingPlatforms.CSharp.Core.Interfaces;
@@ -15,13 +16,17 @@ public class StorageTest
     {
         _storage = new AdvertPlatformStorage();
         _parser = new AdventPlatformParser();
+        
+        var content_ok = File.ReadAllText("../../../../TestFiles/File1_ok");
+        var data = _parser.Parse(content_ok);
+        _storage.Add(data);
     }
     
     // Тест добавления рекламодателя в time-im memory хранилище
     // Если первый раз сработает нормально, то последующее тесты не имеют значения
     // так как список локаций пересоздается внутри хранилища
     [Test]
-    public void Add()
+    public void AddAdvertisingPlatforms()
     {
         var content_ok = File.ReadAllText("../../../../TestFiles/File1_ok");
         var result = _parser.Parse(content_ok);
@@ -30,12 +35,8 @@ public class StorageTest
     
     // Тест получения списка рекламодателей по локации
     [Test]
-    public void Get()
+    public void GetAdvertisingPlatformsByLocation()
     {
-        var content_ok = File.ReadAllText("../../../../TestFiles/File1_ok");
-        var data = _parser.Parse(content_ok);
-        _storage.Add(data);
-        
         var result1 = _storage.GetPlatforms("/ru/msk");
         Assert.That(result1.Count, Is.EqualTo(2));
         var result2 = _storage.GetPlatforms("/ru/svrd");
