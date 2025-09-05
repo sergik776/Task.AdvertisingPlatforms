@@ -30,4 +30,4 @@ dotnet run -c Release --property WarningLevel=0
 ```
 Проект сначала проводит тесты [Task.AdvertisingPlatforms.CSharp.Tests](Task.AdvertisingPlatforms.CSharp.Tests), если тесты пройдены успешно, то запускается Benchmark
 Пример результата Benchmark:
-![Скриншот](Task.AdvertisingPlatforms.CSharp/screenshot_2025-09-05_13-08-07.png)
+![Скриншот](Assets/screenshot_2025-09-05_13-08-07.png)
